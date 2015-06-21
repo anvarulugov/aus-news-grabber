@@ -1,0 +1,26 @@
+.aus-channels-table td {
+	border-bottom: 1px solid #F0EFEF;
+}
+
+.aus-channels-table-col1 {
+	width: 4%;
+	border-right: 1px solid #F0EFEF;
+}
+
+.aus-channels-table-col2 {
+	width: 15%;
+	border-right: 1px solid #F0EFEF;
+}
+
+.aus-channels-table-col3 {
+	width: 15%;
+	border-right: 1px solid #F0EFEF;
+}
+
+.aus-channels-table-col4 {
+	border-right: 1px solid #F0EFEF;
+}
+
+.aus-channels-table-col5 {
+	width: 10%;
+}
