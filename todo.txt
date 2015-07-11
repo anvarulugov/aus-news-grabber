@@ -1,0 +1,2 @@
+- Источник новости qo'shish kerak
+- Post statusni dynamic qilish kerak
