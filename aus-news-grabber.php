@@ -4,6 +4,7 @@ Plugin Name: AUS News Grabber
 Plugin URI: http://wp.ulugov.uz/
 Description: Grabbers news from selected rss channel. Includes widget view, single post and category view
 Version: 0.0.1
+Author: Anvar Ulugov
 Author URI: http://ulugov.uz/
 */
 
