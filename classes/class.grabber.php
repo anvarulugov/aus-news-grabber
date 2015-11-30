@@ -95,4 +95,22 @@ abstract class Grabber extends AUSNewsGrabber {
 
 	}
 
+	public function image_upload( $file_url ) {
+		if ( ! $this->attachment_exists( basename( $file_url ) ) ) {
+			$uploaded = wp_upload_bits( basename( $file_url ), null, @file_get_contents( $file_url ) );
+			return $uploaded;
+		}
+		return FALSE;
+	}
+
+	private function attachment_exists( $file_name ) {
+
+		global $wpdb;
+		$post = $wpdb->get_results("SELECT post_title FROM $wpdb->posts WHERE post_title='".$file_name."' AND post_type='attachment' LIMIT 1", 'ARRAY_N');
+		if( empty( $post ) )
+			return FALSE;
+		else
+			return $post;
+	}
+
 }

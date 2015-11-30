@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
 		var del_nonce = jQuery('#channel_del_nonce').text();
 
 		jQuery.ajax({
-			url: 'http://localhost/hinews/wp-admin/admin-ajax.php?action=aus_news_grabber_channel_add',
+			url: '/wp-admin/admin-ajax.php?action=aus_news_grabber_channel_add',
 			type: 'POST',
 			data: data,
 			cache: false,

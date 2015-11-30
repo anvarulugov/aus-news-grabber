@@ -13,7 +13,7 @@ class Hinewsru extends Grabber {
 	public function posts() {
 
 		$pages = $this->get_pages( $this->channel );
-		if ( ! empty( $pages )) {
+		if ( ! empty( $pages ) ) {
 			return $pages;
 		} else {
 			return FALSE;
@@ -44,14 +44,12 @@ class Hinewsru extends Grabber {
 				}
 				$i = 0;
 				foreach ($images as $img) {
-
-					//pq( $img )->attr( 'src', str_replace( 'hi-news.ru', 'hi-news.uz', pq( $img )->attr( 'src' ) ) );
-					$upload = wp_upload_bits( basename( pq( $img )->attr( 'src' ) ), null, file_get_contents( pq( $img )->attr( 'src' ) ) );
-					if ( ! $upload['error'] ) {
+					$upload = $this->image_upload( pq( $img )->attr( 'src' ) );
+					if ( isset( $upload['url'] ) ) {
 						pq( $img )->attr( 'src', $upload['url'] );
 					}
 					if( $i == 0 ) {
-						$post_thumnail = pq( $img )->attr('src');
+						$post_thumnail = pq( $img )->attr( 'src' );
 					}
 					$i++;
 				}
