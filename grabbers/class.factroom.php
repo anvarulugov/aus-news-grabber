@@ -49,7 +49,7 @@ class Factroom extends Grabber {
 				$a = pq( $a_image )->parent();
 				pq ( $a )->replaceWith( '<img src="' . pq( $a_image )->attr( 'src' ) . '" class="' . pq( $a_image )->attr( 'class' ) . '" />' );
 			}
-			$content .= strip_tags( $pq, '<a><p><br><strong><i><img><figure><figcaption>' );
+			$content .= strip_tags( $pq, '<ul><ol><li><a><p><br><strong><i><img><figure><figcaption><blockquote><span>' );
 			$content = preg_replace( '/[\t+\n+]/', '', $content );
 			$content = preg_replace( '/<p><strong>Читайте также.*<\/?p>/', '', $content );
 		}
