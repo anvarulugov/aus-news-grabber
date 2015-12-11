@@ -123,6 +123,7 @@ class AUSNewsGrabber {
 					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $news['post_date'] ),
 					'post_author' => $channel['grabber_author'],
 					'post_type' => 'post',
+					'post_status' => 'pending',
 					'post_category' => array( $channel['grabber_cat'] ),
 				);
 				/*
@@ -150,7 +151,11 @@ class AUSNewsGrabber {
 					$image = '';
 					//$image = '<a title="'.$news['post_title'].'" href="'.$thumbnail['src'].'" data-slb-group="'.$thumbnail['id'].'" data-slb-active="1" data-slb-internal="0"><img class="aligncenter size-large" src="'.$thumbnail['src'].'" alt="'.$news['post_title'].'" title="'.$news['post_title'].'" /></a>';
 					if($thumbnail) {
-						wp_update_post(array('ID'=>$post_id,'post_content'=>$image.$news['post_content']));
+						wp_update_post(array(
+							'ID'=>$post_id,
+							'post_content'=>$image.$news['post_content'],
+							'post_status' => $this->settings['post_status_default'],
+						));
 					}
 					add_post_meta($post_id,'source',$source);
 				} else {
@@ -210,13 +215,10 @@ class AUSNewsGrabber {
 	public function show_source( $content ) {
 
 		global $post;
-		$news_source = get_post_meta( $post->ID, 'source', true );
-		$jsource = json_decode( $news_source );
+		$source_url = get_post_meta( $post->ID, 'source', true );
 		
 		$template = $this->settings['source_template'];
-		$search = array('&lt;','&gt;','{source}','{url}');
-		$replace = array('<','>',$jsource->source,$jsource->url);
-		$template = str_replace( $search, $replace, $template );
+		$template = str_replace( '{source_url}', $source_url, $template );
 
 		if( ! is_feed() && ! is_home() && is_singular() && is_main_query()) {
 			$content .= $template;

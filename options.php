@@ -36,8 +36,6 @@ class AUSNGOptions {
 		// Load plugin language files
 		add_action( 'plugins_loaded', array( $this, 'language' ) );
 
-		
-
 		$this->grabbers = $grabbers;
 	
 	}
@@ -82,7 +80,7 @@ class AUSNGOptions {
 		*/
 
 		add_menu_page(
-			sprintf( __( '%s plugin options', $this->plugin_slug ), $this->plugin_name ), // The Title to be displayed on corresponding page for this menu
+			sprintf( __( '%s plugin options', 'aus-grabber' ), $this->plugin_name ), // The Title to be displayed on corresponding page for this menu
 			'AUS Grabber', // The Text to be displayed for this actual menu item
 			'administrator', // Which type of users can see this menu
 			$this->plugin_slug . '_plugin', // The unique ID - that is, the slug - for this menu item
@@ -93,7 +91,7 @@ class AUSNGOptions {
 		add_submenu_page(
 			$this->plugin_slug . '_plugin', // Register this submenu with the menu defined above
 			$this->plugin_name . ' Plugin Options', // The text to the display in the browser when this menu item is active
-			__( 'Channels', $this->plugin_slug ), // The text for this menu item
+			__( 'Channels', 'aus-grabber' ), // The text for this menu item
 			'administrator', // Which type of users can see this menu
 			$this->plugin_slug . '_plugin_options', // The unique ID - the slug - for this menu item
 			array( $this, 'plugin_options_display' ) // The function used to render the menu for this page to the screen
@@ -216,14 +214,14 @@ class AUSNGOptions {
 		// Next, we'll introduce the fields11
 		add_settings_field(
 			'grabb_period',
-			__( 'Check every', $this->plugin_slug ),
+			__( 'Check every', 'aus-grabber' ),
 			array( $this, 'input'),
 			$this->plugin_slug . '_plugin_settings',
 			$this->plugin_slug . '_plugin_settings_section',
 			array(
 				'id' => 'grabb_period',
 				'type' => 'select',
-				'description' => __( 'Please, select period of channel checking', $this->plugin_slug ),
+				'description' => __( 'Please, select period of channel checking', 'aus-grabber' ),
 				'options' => array( 
 					'hourly'=>'Once Hourly',
 					'twicedaily' => 'Twice Daily', 
@@ -235,35 +233,55 @@ class AUSNGOptions {
 
 		add_settings_field(
 			'grabber_author_default',
-			__( 'Grabbed news default author', $this->plugin_slug ),
+			__( 'Default author', 'aus-grabber' ),
 			array( $this, 'input'),
 			$this->plugin_slug . '_plugin_settings',
 			$this->plugin_slug . '_plugin_settings_section',
 			array(
 				'id' => 'grabber_author_default',
 				'type' => 'authors',
-				'description' => __( 'Please, select grabbed news default author', $this->plugin_slug ),
+				'description' => __( 'Please, select grabbed news default author', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 			)
 		);
+
+		add_settings_field(
+			'post_status_default',
+			__( 'Default post status', 'aus-grabber' ),
+			array( $this, 'input'),
+			$this->plugin_slug . '_plugin_settings',
+			$this->plugin_slug . '_plugin_settings_section',
+			array(
+				'id' => 'post_status_default',
+				'type' => 'select',
+				'options' => array(
+					'pending' => __( 'Pending' ),
+					'publish' => __( 'Published' ),
+					'draft' => __( 'Draft' ),
+				),
+				'description' => __( 'Please, select grabbed news default post status', 'aus-grabber' ),
+				'group' => $this->plugin_slug . '_plugin_settings',
+			)
+		);
+
 		//
 		add_settings_field(
 			'default_thumb', // ID to identify the field throughout the plugin 
-			__( 'RSS URL', $this->plugin_slug ), // The label to the left of the option interface
+			__( 'Default thubmnail', 'aus-grabber' ), // The label to the left of the option interface
 			array( $this, 'input'), // The name of the function responsible for rendering the option interface
 			$this->plugin_slug . '_plugin_settings', // The page on which this option will be displayed
 			$this->plugin_slug . '_plugin_settings_section', // The name of the section to which this field belongs
 			array(
 				'id' => 'default_thumb',
 				'type' => 'text',
-				'description' => __( 'Please, enter default thubmnail URL', $this->plugin_slug ),
+				'description' => __( 'Please, enter default thubmnail URL', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 				'atts' => array( 'style' => 'width:auto;')
 			) // The array of arguments to pass to the callback function.
 		);
 		add_settings_field(
 			'show_source', // ID to identify the field throughout the plugin 
-			__( 'Show news source', $this->plugin_slug ), // The label to the left of the option interface
+			__( 'Show news source', 'aus-grabber' ), // The label to the left of the option interface
 			array( $this, 'input'), // The name of the function responsible for rendering the option interface
 			$this->plugin_slug . '_plugin_settings', // The page on which this option will be displayed
 			$this->plugin_slug . '_plugin_settings_section', // The name of the section to which this field belongs
@@ -271,13 +289,13 @@ class AUSNGOptions {
 				'id' => 'show_source',
 				'type' => 'checkbox',
 				'title' => 'Show source',
-				'description' => __( 'Show news source', $this->plugin_slug ),
+				'description' => __( 'Show news source', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 			) // The array of arguments to pass to the callback function.
 		);
 		add_settings_field(
 			'source_template',
-			__( 'Source template', $this->plugin_slug ),
+			__( 'Source template', 'aus-grabber' ),
 			array( $this, 'input'),
 			$this->plugin_slug . '_plugin_settings',
 			$this->plugin_slug . '_plugin_settings_section',
@@ -285,7 +303,8 @@ class AUSNGOptions {
 				'id' => 'source_template',
 				'type' => 'textarea',
 				'title' => 'Source template',
-				'description' => __( 'Source template', $this->plugin_slug ),
+				'default' => '{source_url}',
+				'description' => __( 'Source template. Use {source_url} tag to display the link to original content.', 'aus-grabber' ),
 				'editor' => array('textarea_name'=>$this->plugin_slug . '_plugin_settings[source_template]','teeny'=>true,'textarea_rows'=>4),
 			)
 		);
@@ -301,34 +320,34 @@ class AUSNGOptions {
 		// Next, we'll introduce the fields11
 		add_settings_field(
 			'grabber',
-			__( 'Grabber class', $this->plugin_slug ),
+			__( 'Grabber class', 'aus-grabber' ),
 			array( $this, 'input'),
 			$this->plugin_slug . '_plugin_options',
 			$this->plugin_slug . '_plugin_channels_settings_section',
 			array(
 				'id' => 'grabber',
 				'type' => 'select',
-				'description' => __( 'Please, select grabber class', $this->plugin_slug ),
+				'description' => __( 'Please, select grabber class', 'aus-grabber' ),
 				'options' => $this->grabbers,
 			)
 		);
 
 		add_settings_field(
 			'grabber_cat',
-			__( 'Grabbed news category', $this->plugin_slug ),
+			__( 'Grabbed news category', 'aus-grabber' ),
 			array( $this, 'input'),
 			$this->plugin_slug . '_plugin_options',
 			$this->plugin_slug . '_plugin_channels_settings_section',
 			array(
 				'id' => 'grabber_cat',
 				'type' => 'categories',
-				'description' => __( 'Please, select grabbed news category', $this->plugin_slug ),
+				'description' => __( 'Please, select grabbed news category', 'aus-grabber' ),
 			)
 		);
 
 		add_settings_field(
 			'grabber_author',
-			__( 'Grabbed news author', $this->plugin_slug ),
+			__( 'Grabbed news author', 'aus-grabber' ),
 			array( $this, 'input'),
 			$this->plugin_slug . '_plugin_options',
 			$this->plugin_slug . '_plugin_channels_settings_section',
@@ -336,93 +355,23 @@ class AUSNGOptions {
 				'id' => 'grabber_author',
 				'type' => 'authors',
 				'default' => $this->settings['grabber_author_default'],
-				'description' => __( 'Please, select grabbed news author', $this->plugin_slug ),
+				'description' => __( 'Please, select grabbed news author', 'aus-grabber' ),
 			)
 		);
 		
 		add_settings_field(
 			'rss_url', // ID to identify the field throughout the plugin 
-			__( 'RSS URL', $this->plugin_slug ), // The label to the left of the option interface
+			__( 'RSS URL', 'aus-grabber' ), // The label to the left of the option interface
 			array( $this, 'input'), // The name of the function responsible for rendering the option interface
 			$this->plugin_slug . '_plugin_options', // The page on which this option will be displayed
 			$this->plugin_slug . '_plugin_channels_settings_section', // The name of the section to which this field belongs
 			array(
 				'id' => 'rss_url',
 				'type' => 'text',
-				'description' => __( 'Please, enter RSS URL', $this->plugin_slug ),
+				'description' => __( 'Please, enter RSS URL', 'aus-grabber' ),
 				'atts' => array( 'style' => 'width:auto;')
 			) // The array of arguments to pass to the callback function.
 		);
-
-		/*
-		add_settings_field(
-			'show_footer', // ID to identify the field throughout the plugin 
-			__( 'Show footer', $this->plugin_slug ), // The label to the left of the option interface
-			array( $this, 'input'), // The name of the function responsible for rendering the option interface
-			$this->plugin_slug . '_plugin_options', // The page on which this option will be displayed
-			$this->plugin_slug . '_plugin_settings_section', // The name of the section to which this field belongs
-			array(
-				'id' => 'show_footer',
-				'type' => 'checkbox',
-				'title' => 'Show footer',
-				'description' => __( 'Show footer description', $this->plugin_slug ),
-			) // The array of arguments to pass to the callback function.
-		);
-
-		add_settings_field(
-			'show_sidebar',
-			__( 'Show sidebar', $this->plugin_slug ),
-			array( $this, 'input'),
-			$this->plugin_slug . '_plugin_options',
-			$this->plugin_slug . '_plugin_settings_section',
-			array(
-				'id' => 'show_sidebar',
-				'type' => 'select',
-				'description' => __( 'Show sidebar description', $this->plugin_slug ),
-				'options' => array( false => '— Select —', 'on' => 'Yes', 'off' => 'No'),
-			)
-		);
-
-		add_settings_field(
-			'show_logo',
-			__( 'Show logo', $this->plugin_slug ),
-			array( $this, 'input'),
-			$this->plugin_slug . '_plugin_options',
-			$this->plugin_slug . '_plugin_settings_section',
-			array(
-				'id' => 'show_logo',
-				'type' => 'radio',
-				'description' => __( 'Show logo description', $this->plugin_slug ),
-				'options' => array( 'on' => 'Yes', 'off' => 'No'),
-			)
-		);
-
-		add_settings_field(
-			'featured_cat',
-			__( 'Show featured category', $this->plugin_slug ),
-			array( $this, 'input'),
-			$this->plugin_slug . '_plugin_options',
-			$this->plugin_slug . '_plugin_settings_section',
-			array(
-				'id' => 'featured_cat',
-				'type' => 'categories',
-				'description' => __( 'Show featured_cat description', $this->plugin_slug ),
-			)
-		);
-
-		add_settings_field(
-			'rich_text',
-			__( 'Rich text editor', $this->plugin_slug ),
-			array( $this, 'input'),
-			$this->plugin_slug . '_plugin_options',
-			$this->plugin_slug . '_plugin_settings_section',
-			array(
-				'id' => 'rich_text',
-				'type' => 'textarea',
-				'description' => __( 'Rich text editor description', $this->plugin_slug ),
-			)
-		);
-		*/
 	
 		register_setting(
 			$this->plugin_slug . '_plugin_settings_group',
@@ -511,7 +460,7 @@ class AUSNGOptions {
 					'rand_id' => $data['rand_id'],
 				);
 
-				echo $message = json_encode( array( 'error'=>0, 'message'=>__( 'New channel added', $this->plugin_slug ), 'channel'=>$channel, ) );
+				echo $message = json_encode( array( 'error'=>0, 'message'=>__( 'New channel added', 'aus-grabber' ), 'channel'=>$channel, ) );
 			} else {
 				echo $message = json_encode( array( 'error'=>1, 'message'=>__( 'Please, enter RSS URL', $this->plugin_slug ) ) );
 			}

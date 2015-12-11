@@ -52,6 +52,7 @@ class Factroom extends Grabber {
 			$content .= strip_tags( $pq, '<ul><ol><li><a><p><br><strong><i><img><figure><figcaption><blockquote><span>' );
 			$content = preg_replace( '/[\t+\n+]/', '', $content );
 			$content = preg_replace( '/<p><strong>Читайте также.*<\/?p>/', '', $content );
+			$content = str_replace( 'Фактрум', 'LifeFactors', $content );
 		}
 
 		$result = array(
