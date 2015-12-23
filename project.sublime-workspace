@@ -587,17 +587,18 @@
 	"expanded_folders":
 	[
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/classes",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers"
 	],
 	"file_history":
 	[
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/options.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/classes/class.grabber.php",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.factroom.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/options.php",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/aus-news-grabber.php",
 		"/D/wserver/htdocs/ulugov/index.php",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/todo.txt",
 		"/D/wserver/htdocs/share/web/js/scripts.js",
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/classes/class.grabber.php",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.hinewsru.php",
 		"/C/Temp/_tc/share/assets/AppAsset.php",
 		"/D/wserver/htdocs/share/assets/AppAsset.php",
