@@ -620,6 +620,13 @@ class AUSNGOptions {
 	 */
 	public function scripts() {
 
+		echo '
+		<script>
+		function home_url() {
+			return "' . home_url() . '";
+		}
+		</script>
+		';
 		wp_enqueue_style( 'aus-news-grabber', AUSNG_URL . '/css/styles.css', array(), '0.0.1' );
 		wp_enqueue_script( 'aus-news-grabber', AUSNG_URL . '/js/scripts.js', array( 'jquery' ), '0.0.1', true );
 
