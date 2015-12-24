@@ -3,7 +3,7 @@
 Plugin Name: AUS News Grabber
 Plugin URI: http://wp.ulugov.uz/
 Description: Grabbers news from selected rss channel. Includes widget view, single post and category view
-Version: 0.0.1
+Version: 1.0.0
 Author: Anvar Ulugov
 Author URI: http://ulugov.uz/
 */
@@ -20,7 +20,6 @@ include( AUSNG_DIR . '/options.php' );
 include( AUSNG_DIR . '/vendors/phpQuery.php' );
 include( AUSNG_DIR . '/vendors/lastRSS.php' );
 include( AUSNG_DIR . '/classes/class.grabber.php' );
-include( AUSNG_DIR . '/classes/class.widget.php' );
 
 class AUSNewsGrabber {
 
@@ -88,8 +87,12 @@ class AUSNewsGrabber {
 
 	public function get_last_date( $cat_id ) {
 
-		$latest_post = new WP_Query(array('posts_per_page'=>1,'category__in'=>array($cat_id)));
-		if($latest_post->have_posts()) {
+		$latest_post = new WP_Query( array( 
+			'posts_per_page'=>1, 
+			'category__in'=>array($cat_id)
+		) );
+
+		if( $latest_post->have_posts() ) {
 			return $latest_post->posts[0]->post_date;
 		} else {
 			return FALSE;
@@ -110,15 +113,10 @@ class AUSNewsGrabber {
 
 		$posts = new $grabber_class( $grabber_args );
 
-		// echo '<pre>';
-		// var_dump($posts->posts());
-		// echo '</pre>';
-
 		if ( $posts->posts() ) {
-			foreach ($posts->posts() as $news) {
+			foreach ( $posts->posts() as $news ) {
 				$post = array(
 					'post_title' => $news['post_title'],
-					'post_status' => 'publish',
 					'post_date' => $news['post_date'],
 					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $news['post_date'] ),
 					'post_author' => $channel['grabber_author'],
@@ -126,53 +124,47 @@ class AUSNewsGrabber {
 					'post_status' => 'pending',
 					'post_category' => array( $channel['grabber_cat'] ),
 				);
-				/*
-				$jurl = json_encode($news['post_source_url']);
-				$aurl = json_decode($jurl, true);
-				$source = json_encode(array('source'=>$channel['grabber'],'url'=>$aurl[0]));
-				*/
 				$source = $news['post_source_url'];
-				$post_exists = $this->post_exists((string)$news['post_title'],(string)$news['post_date']);
-				if(!$post_exists) {
-					$post_id = wp_insert_post($post, $wp_error);
+				$post_exists = $this->post_exists( (string)$news['post_title'], (string)$news['post_date'] );
+				if( ! $post_exists ) {
+					$post_id = wp_insert_post( $post, $wp_error );
 
 					if ( ! empty( $news['tags'] ) && is_array( $news['tags'] ) ) {
 						wp_set_post_tags( $post_id, $news['tags'] );
 					}
 
 					if ( ! empty( $news['post_thumbnail'] ) ) {
-						$thumbnail = $this->insert_attachment($post_id,$news['post_thumbnail']);
+						$thumbnail = $this->insert_attachment( $post_id, $news['post_thumbnail'] );
 					} else {
 						$thumbnail = array(
 							'src' => $this->settings['default_thumb'],
 							'id' => '',
 						);
 					}
-					$image = '';
-					//$image = '<a title="'.$news['post_title'].'" href="'.$thumbnail['src'].'" data-slb-group="'.$thumbnail['id'].'" data-slb-active="1" data-slb-internal="0"><img class="aligncenter size-large" src="'.$thumbnail['src'].'" alt="'.$news['post_title'].'" title="'.$news['post_title'].'" /></a>';
-					if($thumbnail) {
-						wp_update_post(array(
+					if( $thumbnail ) {
+						wp_update_post( array(
 							'ID'=>$post_id,
-							'post_content'=>$image.$news['post_content'],
+							'post_content'=>$news['post_content'],
 							'post_status' => $this->settings['post_status_default'],
-						));
+						) );
 					}
-					add_post_meta($post_id,'source',$source);
+					add_post_meta( $post_id, 'source', $source );
 				} else {
 					$post_id = $post_exists['ID'];
 					if ( ! empty( $news['post_thumbnail'] ) ) {
-						$thumbnail = $this->insert_attachment($post_id,$news['post_thumbnail']);
+						$thumbnail = $this->insert_attachment( $post_id, $news['post_thumbnail'] );
 					} else {
 						$thumbnail = array(
 							'src' => $this->settings['default_thumb'],
 							'id' => '',
 						);
 					}
-					$image = '';
-					//$image = '<a title="'.$news['post_title'].'" href="'.$thumbnail['src'].'" data-slb-group="'.$thumbnail['id'].'" data-slb-active="1" data-slb-internal="0"><img class="aligncenter size-large" src="'.$thumbnail['src'].'" alt="'.$news['post_title'].'" title="'.$news['post_title'].'" /></a>';
-					if($thumbnail) {
-						wp_update_post(array('ID'=>$post_id,'post_content'=>$image.$news['post_content']));
-						update_post_meta($post_id,'source',$source);
+					if( $thumbnail ) {
+						wp_update_post( array( 
+							'ID'=>$post_id, 
+							'post_content'=>$news['post_content'] 
+						) );
+						update_post_meta( $post_id, 'source', $source );
 					}
 				}
 			}
@@ -186,28 +178,28 @@ class AUSNewsGrabber {
 	public function insert_attachment( $post_id, $image_url ) {
 
 		$upload_dir = wp_upload_dir();
-		$image_data = file_get_contents($image_url);
-		$filename = basename($image_url);
-		if(wp_mkdir_p($upload_dir['path']))
+		$image_data = file_get_contents( $image_url );
+		$filename = basename( $image_url );
+		if( wp_mkdir_p( $upload_dir['path'] ) )
 		    $file = $upload_dir['path'] . '/' . $filename;
 		else
 		    $file = $upload_dir['basedir'] . '/' . $filename;
-		file_put_contents($file, $image_data);
+		file_put_contents( $file, $image_data );
 
-		$wp_filetype = wp_check_filetype($filename, null );
+		$wp_filetype = wp_check_filetype( $filename, null );
 		$attachment = array(
 		    'post_mime_type' => $wp_filetype['type'],
-		    'post_title' => sanitize_file_name($filename),
+		    'post_title' => sanitize_file_name( $filename ),
 		    'post_content' => '',
 		    'post_status' => 'publish'
 		);
 		$attach_id = wp_insert_attachment( $attachment, $file, $post_id );
-		require_once(ABSPATH . 'wp-admin/includes/image.php');
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
 		$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
 		wp_update_attachment_metadata( $attach_id, $attach_data );
 		set_post_thumbnail( $post_id, $attach_id );
-		$image_url = wp_get_attachment_url($attach_id);
-		$image = array('id'=>$attach_id,'src'=>$image_url);
+		$image_url = wp_get_attachment_url( $attach_id );
+		$image = array( 'id'=>$attach_id, 'src'=>$image_url );
 		return $image;
 
 	}
@@ -220,7 +212,7 @@ class AUSNewsGrabber {
 		$template = $this->settings['source_template'];
 		$template = str_replace( '{source_url}', $source_url, $template );
 
-		if( ! is_feed() && ! is_home() && is_singular() && is_main_query()) {
+		if( ! is_feed() && ! is_home() && is_singular() && is_main_query() ) {
 			$content .= $template;
 		}
 		
@@ -231,8 +223,8 @@ class AUSNewsGrabber {
 	public function post_exists( $post_title, $post_date ) {
 
 		global $wpdb;
-		$post = $wpdb->get_results("SELECT post_title FROM $wpdb->posts WHERE post_title='".$post_title."' AND post_date='".date('Y-m-d H:i:s',strtotime($post_date))."' AND post_type='post' LIMIT 1", 'ARRAY_N');
-		if(empty($post) or count($post_date)<=0)
+		$post = $wpdb->get_results( "SELECT post_title FROM $wpdb->posts WHERE post_title='" . $post_title . "' AND post_date='" . date( 'Y-m-d H:i:s', strtotime( $post_date ) ) . "' AND post_type='post' LIMIT 1", 'ARRAY_N' );
+		if( empty( $post ) || count( $post_date ) <= 0 )
 			return FALSE;
 		else
 			return $post;

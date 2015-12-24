@@ -16,7 +16,7 @@ class Newsrucom extends Grabber {
 
 	}
 
-	public function pattern($pcontent, $title) {
+	public function pattern( $pcontent, $title ) {
 		
 		$hentry = $pcontent->find('.maintext');
 		$news = pq($hentry);

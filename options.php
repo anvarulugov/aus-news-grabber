@@ -51,7 +51,14 @@ class AUSNGOptions {
 		$this->options = get_option( $this->plugin_slug . '_plugin_options' );
 
 		if( ! get_option( $this->plugin_slug . '_plugin_settings' ) ) {
-			add_option( $this->plugin_slug . '_plugin_settings' );
+			$default_settings = array(
+				'grabb_period' => 'hourly',
+				'grabber_author_default' => 1,
+				'post_status_default' => 'pending',
+				'default_thumb' => '',
+				'source_template' => '{source_url}',
+			);
+			add_option( $this->plugin_slug . '_plugin_settings', $default_settings );
 		}
 		$this->settings = get_option( $this->plugin_slug . '_plugin_settings' );
 
@@ -141,7 +148,7 @@ class AUSNGOptions {
 
 			<?php //settings_fields( $this->plugin_slug . '_plugin_options_group' ); ?>
 			<?php do_settings_sections( $this->plugin_slug . '_plugin_options' ); ?>
-			<a id="<?php echo $this->plugin_slug; ?>-add-channel" class="button button-primary" href="#"><?php _e( 'Add Channel', $this->plugin_slug ); ?></a>
+			<a id="<?php echo $this->plugin_slug; ?>-add-channel" class="button button-primary" href="#"><?php _e( 'Add Channel', 'aus-grabber' ); ?></a>
 			</form>
 			<br /><br />
 			<table class="wp-list-table widefat fixed tags aus-channels-table">
@@ -149,19 +156,19 @@ class AUSNGOptions {
 					<tr>
 						<th class="aus-channels-table-col1">#</th>
 						<th  class="aus-channels-table-col2">
-							<?php _e( 'Grabber', $this->plugin_slug ); ?>
+							<?php _e( 'Grabber', 'aus-grabber' ); ?>
 						</th>
 						<th class="aus-channels-table-col3">
-							<?php _e( 'Category', $this->plugin_slug ); ?>
+							<?php _e( 'Category', 'aus-grabber' ); ?>
 						</th>
 						<th class="aus-channels-table-col3">
-							<?php _e( 'Author', $this->plugin_slug ); ?>
+							<?php _e( 'Author', 'aus-grabber' ); ?>
 						</th>
 						<th class="aus-channels-table-col4">
-							<?php _e( 'RSS URL', $this->plugin_slug ); ?>
+							<?php _e( 'RSS URL', 'aus-grabber' ); ?>
 						</th>
 						<th class="aus-channels-table-col5">
-							<?php _e( 'Delete', $this->plugin_slug ); ?>
+							<?php _e( 'Delete', 'aus-grabber' ); ?>
 						</th>
 					</tr>
 				</thead>
@@ -169,14 +176,14 @@ class AUSNGOptions {
 					<?php if ( ! empty( $this->options ) ) : ?>
 					<?php $channel_del_nonce = wp_create_nonce( $this->plugin_slug . '_channel_del' ); ?>
 					<div id="channel_del_nonce" style="display:none;"><?php echo $channel_del_nonce; ?></div>
-					<?php $i=1; foreach ($this->options as $option) : ?>
+					<?php $i=1; foreach ( $this->options as $option ) : ?>
 						<tr>
 							<td class="aus-channels-table-col1"><?php echo $i++; ?></td>
 							<td class="aus-channels-table-col2">
 								<?php echo $option['grabber']; ?>
 							</td>
 							<td class="aus-channels-table-col3">
-								<?php echo get_cat_name($option['grabber_cat']); ?>
+								<?php echo get_cat_name( $option['grabber_cat'] ); ?>
 							</td>
 							<td class="aus-channels-table-col3">
 								<?php echo get_user_by( 'id', $option['grabber_author'] )->display_name; ?>
@@ -185,7 +192,7 @@ class AUSNGOptions {
 								<?php echo $option['rss_url']; ?>
 							</td>
 							<td class="aus-channels-table-col5">
-								<a class="<?php echo $this->plugin_slug . '-del-channel'; ?>" data-nonce="<?php echo $channel_del_nonce; ?>" data-rand_id="<?php echo $option['rand_id']; ?>" id="" href="#<?php echo $option['rand_id']; ?>"><?php _e( 'Delete', $this->plugin_slug ); ?></a>
+								<a class="<?php echo $this->plugin_slug . '-del-channel'; ?>" data-nonce="<?php echo $channel_del_nonce; ?>" data-rand_id="<?php echo $option['rand_id']; ?>" id="" href="#<?php echo $option['rand_id']; ?>"><?php _e( 'Delete', 'aus-grabber' ); ?></a>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -207,7 +214,7 @@ class AUSNGOptions {
 		add_settings_section(
 			$this->plugin_slug . '_plugin_settings_section', // ID that used to identify this section and whith wich to register options
 			'Plugin Settings', // Title to be displayed on the administration page
-			array( $this, 'plugin_general_options_ballback'), // Call back used to render the description of the section
+			array( $this, 'plugin_general_options_ballback' ), // Call back used to render the description of the section
 			$this->plugin_slug . '_plugin_settings' // Page on which to add this section of options
 		);
 
@@ -376,13 +383,13 @@ class AUSNGOptions {
 		register_setting(
 			$this->plugin_slug . '_plugin_settings_group',
 			$this->plugin_slug . '_plugin_settings',
-			array( $this, 'senitize_settings')
+			array( $this, 'senitize_settings' )
 		);
 
 		register_setting(
 			$this->plugin_slug . '_plugin_options_group',
 			$this->plugin_slug . '_plugin_options',
-			array( $this, 'senitize_options')
+			array( $this, 'senitize_options' )
 		);
 
 	}
@@ -399,24 +406,24 @@ class AUSNGOptions {
 
 		$output = array();
 		$i = 0;
-		foreach ($input as $option_key => $option_val) {
+		foreach ( $input as $option_key => $option_val ) {
 			$i++;
-			foreach ($option_val as $key => $value) {
-				switch ($key) {
+			foreach ( $option_val as $key => $value ) {
+				switch ( $key ) {
 					case 'grabber':
-						$output[$i][$key] = sanitize_text_field( $value );
+						$output[ $i ][ $key ] = sanitize_text_field( $value );
 						break;
 					case 'grabber_cat':
-						$output[$i][$key] = absint( $value );
+						$output[ $i ][ $key ] = absint( $value );
 						break;
 					case 'grabber_author':
-						$output[$i][$key] = absint( $value );
+						$output[ $i ][ $key ] = absint( $value );
 						break;
 					case 'rss_url':
-						$output[$i][$key] = esc_url( $value );
+						$output[ $i ][ $key ] = esc_url( $value );
 						break;
 					case 'rand_id':
-						$output[$i][$key] = absint( $value );
+						$output[ $i ][ $key ] = absint( $value );
 						break;
 				}
 			}
@@ -476,7 +483,7 @@ class AUSNGOptions {
 
 	public function channel_del() {
 
-		if ( isset($_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], $this->plugin_slug . '_channel_del') ) {
+		if ( isset( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], $this->plugin_slug . '_channel_del') ) {
 
 
 			if ( isset( $_POST['rand_id'] ) && ! empty( $_POST['rand_id'] ) ) {
@@ -534,8 +541,8 @@ class AUSNGOptions {
 		extract( $defaults, EXTR_OVERWRITE );
 		extract( $args, EXTR_OVERWRITE );
 
-		if ( isset($atts) and !empty($atts)) {
-			foreach ($atts as $attribute => $attr_value) {
+		if ( isset( $atts ) && ! empty( $atts ) ) {
+			foreach ( $atts as $attribute => $attr_value ) {
 				$attributes .= $attribute . '="' . $attr_value . '"';
 			}
 		}
@@ -548,7 +555,7 @@ class AUSNGOptions {
 
 			case 'radio':
 				$input = '<fieldset>';
-				foreach ($options as $key => $option) {
+				foreach ( $options as $key => $option ) {
 					$input .= '<label title="' . $option . '">';
 					$input .= '<input type="radio" name="' . $group . '[' .$id . ']" value="' . $key . '" ' . ( $value == $key ? 'checked="checked"' : '' ) . ' />';
 					$input .= '<span>' . $option . '</span>';
@@ -558,7 +565,7 @@ class AUSNGOptions {
 				break;
 			case 'textarea':
 				ob_start();
-				wp_editor($value, $id, $editor);
+				wp_editor( $value, $id, $editor );
 				$input = ob_get_contents();
 				ob_end_clean();
 						break;
