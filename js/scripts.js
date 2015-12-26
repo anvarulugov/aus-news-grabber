@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 		var tr = jQuery(this).parent().parent();
 
 		jQuery.ajax({
-			url: 'http://localhost/hinews/wp-admin/admin-ajax.php?action=aus_news_grabber_channel_del',
+			url: home_url() + '/wp-admin/admin-ajax.php?action=aus_news_grabber_channel_del',
 			type: 'POST',
 			data: data,
 			cache: false,

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"image",
+				"image_url"
+			],
+			[
+				"op",
+				"options"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
 				"sour",
 				"source_url"
 			],
@@ -502,23 +514,19 @@
 			[
 				"load",
 				"loadModel"
-			],
-			[
-				"Items",
-				"Itemsmeta"
-			],
-			[
-				"Item",
-				"Itemsmeta"
-			],
-			[
-				"or",
-				"original"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "grabbers/class.newsrucom.php",
+			"settings":
+			{
+				"buffer_size": 1290,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -588,16 +596,26 @@
 	[
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/classes",
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers"
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/css",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/js",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/languages"
 	],
 	"file_history":
 	[
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/classes/class.grabber.php",
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.factroom.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.newsrucom.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/js/scripts.js",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/options.php",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/aus-news-grabber.php",
-		"/D/wserver/htdocs/ulugov/index.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.lsminlt.php",
+		"/C/Temp/1-c2092284adea.html",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/todo.txt",
+		"/D/wserver/htdocs/prot.loc/public_html/parser/index.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.mixstuffru.php",
+		"/C/Users/anvar/Desktop/Ftp probloq@teasoft.org.xml",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/classes/class.grabber.php",
+		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.factroom.php",
+		"/D/wserver/htdocs/ulugov/index.php",
 		"/D/wserver/htdocs/share/web/js/scripts.js",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.hinewsru.php",
 		"/C/Temp/_tc/share/assets/AppAsset.php",
@@ -637,7 +655,6 @@
 		"/D/wserver/htdocs/ethnic/public_html/backend/controllers/ItemsController.php",
 		"/D/wserver/htdocs/ethnic/public_html/backend/views/itemsmeta/_form.php",
 		"/D/wserver/htdocs/credoprint/public_html/inet/scripts.js",
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.lsminlt.php",
 		"/D/wserver/htdocs/wpdemo/wp-content/themes/mh-magazine-lite-child/style.css",
 		"/D/wserver/htdocs/yii2/advanced/backend/web/media/js/admin.js",
 		"/D/wserver/htdocs/yii2/advanced/backend/themes/adminlte/modules/posts/views/posts/_cf_form.php",
@@ -646,7 +663,6 @@
 		"/D/wserver/htdocs/credoprint/public_html/protected/controllers/ServicesController.php",
 		"/D/wserver/htdocs/ethnic/public_html/backend/views/categoriesmeta/_form.php",
 		"/D/wserver/htdocs/yii2/advanced/common/config/main.php",
-		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.newsrucom.php",
 		"/D/wserver/htdocs/hinews/wp-content/plugins/aus-news-grabber/grabbers/class.alfalt.php",
 		"/D/wserver/htdocs/7days/public_html/parse.php",
 		"/D/wserver/htdocs/wpdemo/wp-content/themes/mh-magazine-lite-child/footer.php",
@@ -714,12 +730,7 @@
 		"/D/wserver/htdocs/yii2/advanced/vendor/2amigos/yii2-ckeditor-widget/src/assets/ckeditor/styles.js",
 		"/D/wserver/htdocs/yii2/advanced/vendor/2amigos/yii2-ckeditor-widget/src/assets/ckeditor/build-config.js",
 		"/D/wserver/htdocs/credoprint/public_html/html2/dist/js/app.js",
-		"/D/wserver/htdocs/yii2/basic/vendor/dmstr/yii2-adminlte-asset/web/AdminLteAsset.php",
-		"/D/wserver/htdocs/yii2/advanced/backend/web/media/css/AdminLTE.min.css",
-		"/D/wserver/htdocs/yii2/basic/assets/AppAsset.php",
-		"/D/wserver/htdocs/yii2/basic admin lte/vendor/dmstr/yii2-adminlte-asset/widgets/Alert.php",
-		"/D/wserver/htdocs/yii2/basic admin lte/vendor/dmstr/yii2-adminlte-asset/web/AdminLteAsset.php",
-		"/D/wserver/htdocs/yii2/advanced/backend/modules/admin/modules/controllers/DefaultController.php"
+		"/D/wserver/htdocs/yii2/basic/vendor/dmstr/yii2-adminlte-asset/web/AdminLteAsset.php"
 	],
 	"find":
 	{
@@ -734,9 +745,19 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"pq( $img )->attr( 'src' )",
+			"options",
+			"$this->settings['",
+			"[$i][$",
+			"'aus-basic'",
+			"'aus-grabber' )",
+			"aus-grabber",
+			"$this->plugin_slug );",
+			"grabb_news_scheduler",
+			"scripts",
 			"template",
 			"editor",
 			"show_source",
@@ -854,22 +875,12 @@
 			"50",
 			"odd",
 			"actionser",
-			"view",
-			"clientInf",
-			"user",
-			"actionIn",
-			"У вас недостаточно прав для выполнения указанного действия",
-			"refuse",
-			"denied",
-			"Access",
-			"acce",
-			"checkacc",
-			"auditors"
+			"view"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
 			"\\'",
@@ -1005,13 +1016,43 @@
 		"show_context": true,
 		"use_buffer2": true,
 		"whole_word": false,
-		"wrap": true
+		"wrap": false
 	},
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "grabbers/class.newsrucom.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								613,
+								613
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 330.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1054,7 +1095,7 @@
 	"project": "project.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
