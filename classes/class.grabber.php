@@ -57,7 +57,7 @@ abstract class Grabber extends AUSNewsGrabber {
 				if ( $single ) {
 					$posts[] = $single;
 				}
-			//if( $i==1 ) break;
+			// if( $i==1 ) break;
 		}
 
 		$posts = array_reverse( $posts );
@@ -95,27 +95,55 @@ abstract class Grabber extends AUSNewsGrabber {
 
 	}
 
-	public function image_upload( $file_url ) {
-		$attachment = $this->attachment_exists( basename( $file_url ) );
+	public function image_upload( $image_url ) {
+
+		$filename = basename( $image_url );
+		$attachment = $this->attachment_exists( $filename );
+
 		if ( ! $attachment ) {
-			$uploaded = wp_upload_bits( basename( $file_url ), null, @file_get_contents( $file_url ) );
-			return $uploaded;
-		} else {
-			$image = array(
-				'url' => $attachment->post_content,
+			$upload_dir = wp_upload_dir();
+			$image_data = @file_get_contents( $image_url );
+			if( wp_mkdir_p( $upload_dir['path'] ) )
+			    $file = $upload_dir['path'] . '/' . $filename;
+			else
+			    $file = $upload_dir['basedir'] . '/' . $filename;
+			file_put_contents( $file, $image_data );
+
+			$wp_filetype = wp_check_filetype( $filename, null );
+			$attachment = array(
+			    'post_mime_type'=> $wp_filetype['type'],
+			    'post_title'	=> sanitize_file_name( $filename ),
+			    'guid'			=> $upload_dir['url'] . '/' . $filename,
+			    'post_content'	=> '',
+			    'post_status'	=> 'inherit'
 			);
+			$attach_id = wp_insert_attachment( $attachment, $file );
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+			wp_update_attachment_metadata( $attach_id, $attach_data );
+			set_post_thumbnail( $post_id, $attach_id );
+			$image_url = wp_get_attachment_url( $attach_id );
+			$image = array( 'id'=>$attach_id, 'url'=>$image_url );
 			return $image;
+		} else {
+			return $attachment;
 		}
+
 	}
 
 	private function attachment_exists( $file_name ) {
 
 		global $wpdb;
-		$post = $wpdb->get_results("SELECT post_title FROM $wpdb->posts WHERE post_title='".$file_name."' AND post_type='attachment' LIMIT 1", 'ARRAY_N');
-		if( empty( $post ) )
+		$post = $wpdb->get_results("SELECT ID, guid FROM $wpdb->posts WHERE post_title='" . sanitize_file_name( $file_name ) . "' AND post_type='attachment' LIMIT 1", 'ARRAY_N');
+		if( empty( $post ) ) {
 			return FALSE;
-		else
-			return $post;
+		} else {
+			$image = array(
+				'id' => $post[0][0],
+				'url' => $post[0][1],
+			);
+			return $image;
+		}
 	}
 
 }

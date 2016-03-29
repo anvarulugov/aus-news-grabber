@@ -13,7 +13,7 @@ class Mixstuffru extends Grabber {
 	public function posts() {
 
 		$pages = $this->get_pages( $this->channel );
-		if ( ! empty( $pages )) {
+		if ( ! empty( $pages ) ) {
 			return $pages;
 		} else {
 			return FALSE;
@@ -23,14 +23,19 @@ class Mixstuffru extends Grabber {
 
 	public function pattern( $pcontent, $title ) {
 
-		$hentry = pq($page)->find('.entry-content>div[itemtype="http://schema.org/BlogPosting"]');
+		$hentry = pq( $pcontent )->find( '.entry-content' );
 
 		$post_thumnail = '';
 		$content = '';
 		$tags = array();
 		foreach ( $hentry as $el ) {
 			$pq = pq( $el );
-			$pq->find('center')->remove();
+			$pq->find('*')
+				->not('p')
+				->not('img')
+				->not('a')
+				->not('ul')
+				->not('li')->remove();
 			$images = $pq->find('img');
 			$i = 0;
 			foreach ($images as $img) {
@@ -39,7 +44,7 @@ class Mixstuffru extends Grabber {
 					pq( $img )->attr( 'src', $upload['url'] );
 				}
 				if( $i == 0 ) {
-					$post_thumnail = pq( $img )->attr( 'src' );
+					$post_thumnail = $upload['id'];
 				}
 				$i++;
 			}

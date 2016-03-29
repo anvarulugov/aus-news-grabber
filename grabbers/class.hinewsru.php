@@ -49,7 +49,7 @@ class Hinewsru extends Grabber {
 						pq( $img )->attr( 'src', $upload['url'] );
 					}
 					if( $i == 0 ) {
-						$post_thumnail = pq( $img )->attr( 'src' );
+						$post_thumnail = $upload['id'];
 					}
 					$i++;
 				}
