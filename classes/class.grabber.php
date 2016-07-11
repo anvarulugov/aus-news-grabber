@@ -54,9 +54,9 @@ abstract class Grabber extends AUSNewsGrabber {
 			$i++;
 			if( $channel['last_date'] < date( 'Y-m-d H:i:s',strtotime( $feed['pubDate'] ) ) )
 				$single = $this->single( $feed['title'], $feed['link'], $feed['pubDate'] );
-				if ( $single ) {
-					$posts[] = $single;
-				}
+			if ( $single ) {
+				$posts[] = $single;
+			}
 			// if( $i==1 ) break;
 		}
 
@@ -107,7 +107,7 @@ abstract class Grabber extends AUSNewsGrabber {
 			    $file = $upload_dir['path'] . '/' . $filename;
 			else
 			    $file = $upload_dir['basedir'] . '/' . $filename;
-			file_put_contents( $file, $image_data );
+			@file_put_contents( $file, $image_data );
 
 			$wp_filetype = wp_check_filetype( $filename, null );
 			$attachment = array(

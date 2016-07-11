@@ -40,7 +40,8 @@ class Hinewsru extends Grabber {
 				$images = $pq->find( 'img' );
 				$videos = $pq->find( '[data-code]' );
 				foreach ($videos as $video) {
-					pq ( $video )->replaceWith( '<iframe width="420" height="315" src="https://www.youtube.com/embed/' . pq( $videos )->attr( 'data-code' ) . '" frameborder="0" allowfullscreen></iframe>' );
+					$video = pq( $video );
+					$video->replaceWith( '<iframe width="420" height="315" src="https://www.youtube.com/embed/' . $video->attr( 'data-code' ) . '" frameborder="0" allowfullscreen></iframe>' );
 				}
 				$i = 0;
 				foreach ($images as $img) {

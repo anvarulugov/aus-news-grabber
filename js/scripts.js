@@ -8,11 +8,11 @@ jQuery(document).ready(function() {
 
 		e.preventDefault();
 		var form = jQuery('#aus_news_grabber-add-form');
-		var data = form.serialize();
+		var data = form.serialize() + "&action=aus_news_grabber_channel_add";
 		var del_nonce = jQuery('#channel_del_nonce').text();
 
 		jQuery.ajax({
-			url: home_url() + '/wp-admin/admin-ajax.php?action=aus_news_grabber_channel_add',
+			url: ajaxurl,
 			type: 'POST',
 			data: data,
 			cache: false,
@@ -40,11 +40,11 @@ jQuery(document).ready(function() {
 
 		e.preventDefault();
 
-		var data = 'nonce=' + jQuery(this).data('nonce') + '&rand_id=' + jQuery(this).data('rand_id');
+		var data = 'nonce=' + jQuery(this).data('nonce') + '&rand_id=' + jQuery(this).data('rand_id') + '&action=aus_news_grabber_channel_del';
 		var tr = jQuery(this).parent().parent();
 
 		jQuery.ajax({
-			url: home_url() + '/wp-admin/admin-ajax.php?action=aus_news_grabber_channel_del',
+			url: ajaxurl,
 			type: 'POST',
 			data: data,
 			cache: false,
@@ -65,6 +65,32 @@ jQuery(document).ready(function() {
 			}
 		});
 
+	});
+
+	jQuery('.image-upload').click(function(e) {
+		var image_field = jQuery(this).data('field');
+		var custom_uploader;
+		e.preventDefault();
+		//If the uploader object has already been created, reopen the dialog
+		// if (custom_uploader) {
+		//     custom_uploader.open();
+		//     return;
+		// }
+		//Extend the wp.media object
+		custom_uploader = wp.media.frames.file_frame = wp.media({
+			title: 'Choose Image',
+			button: {
+				text: 'Choose Image'
+			},
+			multiple: false
+		});
+		//When a file is selected, grab the URL and set it as the text field's value
+		custom_uploader.on('select', function() {
+			attachment = custom_uploader.state().get('selection').first().toJSON();
+			jQuery(image_field).val(attachment.id);
+		});
+		//Open the uploader dialog
+		custom_uploader.open();
 	});
 
 });

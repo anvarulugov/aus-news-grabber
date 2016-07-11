@@ -23,8 +23,8 @@ class Factroom extends Grabber {
 
 	public function pattern( $pcontent, $title ) {
 
-		$hentry = pq($pcontent)->find('.post');
-
+		$hentry = pq($pcontent)->find('.relap-selector');
+		$big = pq($pcontent)->find('big');	
 		$post_thumnail = '';
 		$content = '';
 		$tags = array();
@@ -59,7 +59,7 @@ class Factroom extends Grabber {
 		}
 
 		$result = array(
-			'content' => $content,
+			'content' => $big.$content,
 			'image'	=> $post_thumnail,
 			'tags' => $tags,
 		);

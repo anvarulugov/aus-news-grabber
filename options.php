@@ -280,7 +280,7 @@ class AUSNGOptions {
 			$this->plugin_slug . '_plugin_settings_section', // The name of the section to which this field belongs
 			array(
 				'id' => 'default_thumb',
-				'type' => 'text',
+				'type' => 'image',
 				'description' => __( 'Please, enter default thubmnail URL', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 				'atts' => array( 'style' => 'width:auto;')
@@ -534,13 +534,14 @@ class AUSNGOptions {
 			'editor' => array(
 				'teeny'=>true,
 				'textarea_rows'=>4,
-				'textarea_name'=>$this->plugin_slug . '_plugin_options'. '[' .$id . ']',
+				'textarea_name'=>$this->plugin_slug . '_plugin_options'. '[textarea]',
 			),
 			'atts' => array(),
 		);
 		extract( $defaults, EXTR_OVERWRITE );
 		extract( $args, EXTR_OVERWRITE );
 
+		$attributes = '';
 		if ( isset( $atts ) && ! empty( $atts ) ) {
 			foreach ( $atts as $attribute => $attr_value ) {
 				$attributes .= $attribute . '="' . $attr_value . '"';
@@ -581,7 +582,7 @@ class AUSNGOptions {
 			case 'cats':
 				$input = '<select name="' . $group . '[' .$id . ']" id="' .$id . '" ' . $attributes . '>';
 				foreach ( get_categories( array( 'hide_empty' => false ) ) as $cat ) {
-					$input .= '<option ' . selected( $key, $value, false ) . ' value="'. $cat->cat_ID .'">' . $cat->cat_name . '</option>';
+					$input .= '<option ' . selected( $cat->cat_ID, $value, false ) . ' value="'. $cat->cat_ID .'">' . $cat->cat_name . '</option>';
 				}
 				$input .= '</select>';
 				break;
@@ -605,6 +606,11 @@ class AUSNGOptions {
 
 			case 'hidden':
 				$input = '<input name="' . $group . '[' .$id . ']" id="' .$id . '" type="' .$type . '" value="' . $value . '"' . $attributes . ' />';
+				break;
+
+			case 'image':
+				$input = '<input id="' .$id . '" type="text" size="36" name="' . $group . '[' .$id . ']" placeholder="http://..." value="' . $value . '" />';
+				$input .= '<input class="button image-upload" data-field="#' . $id . '" type="button" value="' . __( 'Upload Image', 'aus-basic' ) . '" />';
 				break;
 
 			case 'email':

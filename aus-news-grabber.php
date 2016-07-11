@@ -112,7 +112,6 @@ class AUSNewsGrabber {
 		$grabber_class = ucfirst( $channel['grabber'] );
 
 		$posts = new $grabber_class( $grabber_args );
-
 		if ( $posts->posts() ) {
 			foreach ( $posts->posts() as $news ) {
 				$post = array(
@@ -133,39 +132,30 @@ class AUSNewsGrabber {
 						wp_set_post_tags( $post_id, $news['tags'] );
 					}
 
-					if ( ! empty( $news['image'] ) ) {
-						$thumbnail = update_post_meta( $post_id, '_thumbnail_id', $news['image'] );
-					} else {
-						$thumbnail = array(
-							'src' => $this->settings['default_thumb'],
-							'id' => '',
-						);
+					if ( ! empty( $news['post_thumbnail'] ) ) {
+						set_post_thumbnail( (int) $post_id, (int) $news['post_thumbnail'] );
+					} elseif ( ! empty( $this->settings['default_thumb'] ) ) {
+						set_post_thumbnail( (int) $post_id, (int) $this->settings['default_thumb'] );
 					}
-					if( $thumbnail ) {
-						wp_update_post( array(
-							'ID'=>$post_id,
-							'post_content'=>$news['post_content'],
-							'post_status' => $this->settings['post_status_default'],
-						) );
-					}
+
+					wp_update_post( array(
+						'ID'=>$post_id,
+						'post_content'=>$news['post_content'],
+						'post_status' => $this->settings['post_status_default'],
+					) );
 					add_post_meta( $post_id, 'source', $source );
 				} else {
 					$post_id = $post_exists['ID'];
-					if ( ! empty( $news['image'] ) ) {
-						$thumbnail = update_post_meta( $post_id, '_thumbnail_id', $news['image'] );
-					} else {
-						$thumbnail = array(
-							'src' => $this->settings['default_thumb'],
-							'id' => '',
-						);
+					if ( ! empty( $news['post_thumbnail'] ) ) {
+						set_post_thumbnail( (int) $post_id, (int) $news['post_thumbnail'] );
+					} elseif ( ! empty( $this->settings['default_thumb'] ) ) {
+						set_post_thumbnail( (int) $post_id, (int) $this->settings['default_thumb'] );
 					}
-					if( $thumbnail ) {
-						wp_update_post( array( 
-							'ID'=>$post_id, 
-							'post_content'=>$news['post_content'] 
-						) );
-						update_post_meta( $post_id, 'source', $source );
-					}
+					wp_update_post( array( 
+						'ID'=>$post_id, 
+						'post_content'=>$news['post_content'] 
+					) );
+					update_post_meta( $post_id, 'source', $source );
 				}
 			}
 			return TRUE;
