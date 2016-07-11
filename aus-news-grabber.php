@@ -132,9 +132,9 @@ class AUSNewsGrabber {
 						wp_set_post_tags( $post_id, $news['tags'] );
 					}
 
-					if ( ! empty( $news['post_thumbnail'] ) ) {
+					if ( $this->settings['featured_image'] && ! empty( $news['post_thumbnail'] ) ) {
 						set_post_thumbnail( (int) $post_id, (int) $news['post_thumbnail'] );
-					} elseif ( ! empty( $this->settings['default_thumb'] ) ) {
+					} elseif ( $this->settings['featured_image'] && ! empty( $this->settings['default_thumb'] ) ) {
 						set_post_thumbnail( (int) $post_id, (int) $this->settings['default_thumb'] );
 					}
 
@@ -146,9 +146,9 @@ class AUSNewsGrabber {
 					add_post_meta( $post_id, 'source', $source );
 				} else {
 					$post_id = $post_exists['ID'];
-					if ( ! empty( $news['post_thumbnail'] ) ) {
+					if ( $this->settings['featured_image'] && ! empty( $news['post_thumbnail'] ) ) {
 						set_post_thumbnail( (int) $post_id, (int) $news['post_thumbnail'] );
-					} elseif ( ! empty( $this->settings['default_thumb'] ) ) {
+					} elseif ( $this->settings['featured_image'] && ! empty( $this->settings['default_thumb'] ) ) {
 						set_post_thumbnail( (int) $post_id, (int) $this->settings['default_thumb'] );
 					}
 					wp_update_post( array( 

@@ -5,6 +5,7 @@ abstract class Grabber extends AUSNewsGrabber {
 	private $cache_dir;
 	private $cache_time;
 	private $cdata;
+	private $image_count = 0;
 
 	function __construct() {
 
@@ -96,6 +97,8 @@ abstract class Grabber extends AUSNewsGrabber {
 	}
 
 	public function image_upload( $image_url ) {
+
+		// if ( $this->settings['download_images'] == 0  )
 
 		$filename = basename( $image_url );
 		$attachment = $this->attachment_exists( $filename );

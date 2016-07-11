@@ -270,8 +270,34 @@ class AUSNGOptions {
 				'group' => $this->plugin_slug . '_plugin_settings',
 			)
 		);
-
-		//
+		add_settings_field(
+			'download_images', // ID to identify the field throughout the plugin 
+			__( 'Download Images', 'aus-grabber' ), // The label to the left of the option interface
+			array( $this, 'input'), // The name of the function responsible for rendering the option interface
+			$this->plugin_slug . '_plugin_settings', // The page on which this option will be displayed
+			$this->plugin_slug . '_plugin_settings_section', // The name of the section to which this field belongs
+			array(
+				'id' => 'download_images',
+				'type' => 'checkbox',
+				'title' => 'Download Images',
+				'description' => __( 'Download Images', 'aus-grabber' ),
+				'group' => $this->plugin_slug . '_plugin_settings',
+			) // The array of arguments to pass to the callback function.
+		);
+		add_settings_field(
+			'featured_image', // ID to identify the field throughout the plugin 
+			__( 'Set Featured Image', 'aus-grabber' ), // The label to the left of the option interface
+			array( $this, 'input'), // The name of the function responsible for rendering the option interface
+			$this->plugin_slug . '_plugin_settings', // The page on which this option will be displayed
+			$this->plugin_slug . '_plugin_settings_section', // The name of the section to which this field belongs
+			array(
+				'id' => 'featured_image',
+				'type' => 'checkbox',
+				'title' => 'Featured Image',
+				'description' => __( 'Set Featured Image', 'aus-grabber' ),
+				'group' => $this->plugin_slug . '_plugin_settings',
+			) // The array of arguments to pass to the callback function.
+		);
 		add_settings_field(
 			'default_thumb', // ID to identify the field throughout the plugin 
 			__( 'Default thubmnail', 'aus-grabber' ), // The label to the left of the option interface
