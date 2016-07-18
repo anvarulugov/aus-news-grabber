@@ -20,6 +20,7 @@ include( AUSNG_DIR . '/options.php' );
 include( AUSNG_DIR . '/vendors/phpQuery.php' );
 include( AUSNG_DIR . '/vendors/lastRSS.php' );
 include( AUSNG_DIR . '/classes/class.grabber.php' );
+include( AUSNG_DIR . '/classes/class.logger.php' );
 
 class AUSNewsGrabber {
 
@@ -111,9 +112,10 @@ class AUSNewsGrabber {
 		);
 		$grabber_class = ucfirst( $channel['grabber'] );
 
-		$posts = new $grabber_class( $grabber_args );
-		if ( $posts->posts() ) {
-			foreach ( $posts->posts() as $news ) {
+		$grabbed = new $grabber_class( $grabber_args );
+		$posts = $grabbed->posts();
+		if ( $posts ) {
+			foreach ( $posts as $news ) {
 				$post = array(
 					'post_title' => $news['post_title'],
 					'post_date' => $news['post_date'],
@@ -131,6 +133,9 @@ class AUSNewsGrabber {
 					if ( ! empty( $news['tags'] ) && is_array( $news['tags'] ) ) {
 						wp_set_post_tags( $post_id, $news['tags'] );
 					}
+
+					Logger::info( 'featured_image: ' . $this->settings['featured_image'] );
+					Logger::info( 'post_thumbnail: ' . $news['post_thumbnail'] );
 
 					if ( $this->settings['featured_image'] && ! empty( $news['post_thumbnail'] ) ) {
 						set_post_thumbnail( (int) $post_id, (int) $news['post_thumbnail'] );

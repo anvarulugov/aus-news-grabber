@@ -5,7 +5,7 @@ class Mixstuffru extends Grabber {
 	private $channel;
 
 	public function __construct( $channel = array() ) {
-
+		parent::__construct();
 		$this->channel = $channel;
 
 	}

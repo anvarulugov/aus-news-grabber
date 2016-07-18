@@ -5,9 +5,8 @@ class Factroom extends Grabber {
 	private $channel;
 
 	public function __construct( $channel = array() ) {
-
+		parent::__construct();
 		$this->channel = $channel;
-
 	}
 
 	public function posts() {
@@ -24,7 +23,7 @@ class Factroom extends Grabber {
 	public function pattern( $pcontent, $title ) {
 
 		$hentry = pq($pcontent)->find('.relap-selector');
-		$big = pq($pcontent)->find('big');
+		$big = pq($pcontent)->find('big');	
 		$post_thumnail = '';
 		$content = '';
 		$tags = array();
@@ -39,6 +38,7 @@ class Factroom extends Grabber {
 			$i = 0;
 			foreach ($images as $img) {
 				$upload = $this->image_upload( pq( $img )->attr( 'src' ) );
+				Logger::info( $upload );
 				if ( isset( $upload['url'] ) ) {
 					pq( $img )->attr( 'src', $upload['url'] );
 				}
@@ -63,7 +63,7 @@ class Factroom extends Grabber {
 			'image'	=> $post_thumnail,
 			'tags' => $tags,
 		);
-
+		Logger::info( $result );
 		return $result;
 
 	}

@@ -8,11 +8,14 @@ abstract class Grabber extends AUSNewsGrabber {
 	private $image_count = 0;
 
 	function __construct() {
-
+		$this->init();
 	}
 
 	function init() {
 
+		$this->options = get_option( 'aus_news_grabber_plugin_options' );
+		$this->settings = get_option( 'aus_news_grabber_plugin_settings' );
+		$this->last_grabb = get_option( 'aus_news_grabber_plugin_last_grabb' );
 		$this->cache_dir = '../cache';
 		$cache_time = 3600;
 		$this->cdata = 'strip';
@@ -55,10 +58,11 @@ abstract class Grabber extends AUSNewsGrabber {
 			$i++;
 			if( $channel['last_date'] < date( 'Y-m-d H:i:s',strtotime( $feed['pubDate'] ) ) )
 				$single = $this->single( $feed['title'], $feed['link'], $feed['pubDate'] );
+				Logger::info($single);
 			if ( $single ) {
 				$posts[] = $single;
 			}
-			// if( $i==1 ) break;
+			if( $i==1 ) break;
 		}
 
 		$posts = array_reverse( $posts );
@@ -69,12 +73,13 @@ abstract class Grabber extends AUSNewsGrabber {
 
 	public function single( $title, $url, $date ) {
 
-		$data = date( 'Y-m-d H:i:s', strtotime( $date ) );
-		$post_exists = $this->post_exists( (string)$title, (string)$data );
+		$date = date( 'Y-m-d H:i:s', strtotime( $date ) );
+		$post_exists = $this->post_exists( (string)$title, (string)$date );
 
 		if ( ! $post_exists ) {
 			$pcontent = $this->phpquery( $url );
 			$news = $this->pattern( $pcontent, $title );
+			Logger::info($news);
 		} else {
 			return FALSE;
 		}
@@ -98,40 +103,41 @@ abstract class Grabber extends AUSNewsGrabber {
 
 	public function image_upload( $image_url ) {
 
-		// if ( $this->settings['download_images'] == 0  )
+		if ( $this->settings['download_images'] || ( $this->settings['featured_image'] && $this->image_count == 0 ) ) {
 
-		$filename = basename( $image_url );
-		$attachment = $this->attachment_exists( $filename );
+			$filename = basename( $image_url );
+			$attachment = $this->attachment_exists( $filename );
 
-		if ( ! $attachment ) {
-			$upload_dir = wp_upload_dir();
-			$image_data = @file_get_contents( $image_url );
-			if( wp_mkdir_p( $upload_dir['path'] ) )
-			    $file = $upload_dir['path'] . '/' . $filename;
-			else
-			    $file = $upload_dir['basedir'] . '/' . $filename;
-			@file_put_contents( $file, $image_data );
+			if ( ! $attachment ) {
+				$upload_dir = wp_upload_dir();
+				$image_data = @file_get_contents( $image_url );
+				if( wp_mkdir_p( $upload_dir['path'] ) )
+				    $file = $upload_dir['path'] . '/' . $filename;
+				else
+				    $file = $upload_dir['basedir'] . '/' . $filename;
+				@file_put_contents( $file, $image_data );
 
-			$wp_filetype = wp_check_filetype( $filename, null );
-			$attachment = array(
-			    'post_mime_type'=> $wp_filetype['type'],
-			    'post_title'	=> sanitize_file_name( $filename ),
-			    'guid'			=> $upload_dir['url'] . '/' . $filename,
-			    'post_content'	=> '',
-			    'post_status'	=> 'inherit'
-			);
-			$attach_id = wp_insert_attachment( $attachment, $file );
-			require_once( ABSPATH . 'wp-admin/includes/image.php' );
-			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-			wp_update_attachment_metadata( $attach_id, $attach_data );
-			set_post_thumbnail( $post_id, $attach_id );
-			$image_url = wp_get_attachment_url( $attach_id );
-			$image = array( 'id'=>$attach_id, 'url'=>$image_url );
-			return $image;
+				$wp_filetype = wp_check_filetype( $filename, null );
+				$attachment = array(
+				    'post_mime_type'=> $wp_filetype['type'],
+				    'post_title'	=> sanitize_file_name( $filename ),
+				    'guid'			=> $upload_dir['url'] . '/' . $filename,
+				    'post_content'	=> '',
+				    'post_status'	=> 'inherit'
+				);
+				$attach_id = wp_insert_attachment( $attachment, $file );
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+				$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+				wp_update_attachment_metadata( $attach_id, $attach_data );
+				$image_url = wp_get_attachment_url( $attach_id );
+				$image = array( 'id'=>$attach_id, 'url'=>$image_url );
+				$attachment = $image;
+			}
 		} else {
-			return $attachment;
+			$attachment = array( 'id' => null, 'url' => $image_url );
 		}
-
+		$this->image_count++;
+		return $attachment;
 	}
 
 	private function attachment_exists( $file_name ) {
