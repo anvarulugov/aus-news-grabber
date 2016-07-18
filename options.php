@@ -52,11 +52,14 @@ class AUSNGOptions {
 
 		if( ! get_option( $this->plugin_slug . '_plugin_settings' ) ) {
 			$default_settings = array(
-				'grabb_period' => 'hourly',
+				'grabb_period' => 'daily',
 				'grabber_author_default' => 1,
 				'post_status_default' => 'pending',
-				'default_thumb' => '',
-				'source_template' => '{source_url}',
+				'download_images' => 0,
+				'featured_image' => 0,
+				'default_thumb' => null,
+				'show_source' => 1,
+				'source_template' => '<a href="{source_url}">Link to original</a>',
 			);
 			add_option( $this->plugin_slug . '_plugin_settings', $default_settings );
 		}
@@ -115,7 +118,7 @@ class AUSNGOptions {
 
 		<?php $this->scripts(); ?>
 		<div class="wrap">
-			<h2><?php echo sprintf( __( '%s settings'), $this->plugin_name ); ?></h2>
+			<h2><?php echo $this->plugin_name; ?></h2>
 
 			<form method="post" action="options.php">
 			
@@ -139,7 +142,7 @@ class AUSNGOptions {
 		?>
 		<?php $this->scripts(); ?>
 		<div class="wrap">
-			<h2><?php echo sprintf( __( '%s channels'), $this->plugin_name ); ?></h2>
+			<h2><?php echo $this->plugin_name; ?></h2>
 			<form id="<?php echo $this->plugin_slug; ?>-add-form" method="post" action="">
 			
 			<input type="hidden" name="nonce" id="nonce" value="<?php echo wp_create_nonce( $this->plugin_slug . '_channel_add' ); ?>">
@@ -213,7 +216,7 @@ class AUSNGOptions {
 		// future options must belong a section.
 		add_settings_section(
 			$this->plugin_slug . '_plugin_settings_section', // ID that used to identify this section and whith wich to register options
-			'Plugin Settings', // Title to be displayed on the administration page
+			__( 'Plugin Settings', 'aus-grabber' ), // Title to be displayed on the administration page
 			array( $this, 'plugin_general_options_ballback' ), // Call back used to render the description of the section
 			$this->plugin_slug . '_plugin_settings' // Page on which to add this section of options
 		);
@@ -230,9 +233,9 @@ class AUSNGOptions {
 				'type' => 'select',
 				'description' => __( 'Please, select period of channel checking', 'aus-grabber' ),
 				'options' => array( 
-					'hourly'=>'Once Hourly',
-					'twicedaily' => 'Twice Daily', 
-					'daily' => 'Once Daily', 
+					'hourly'=> __( 'Once Hourly', 'aus-grabber' ),
+					'twicedaily' => __( 'Twice Daily', 'aus-grabber' ), 
+					'daily' => __( 'Once Daily', 'aus-grabber' ), 
 					),
 				'group' => $this->plugin_slug . '_plugin_settings',
 			)
@@ -262,7 +265,7 @@ class AUSNGOptions {
 				'id' => 'post_status_default',
 				'type' => 'select',
 				'options' => array(
-					'pending' => __( 'Pending' ),
+					'pending' => __( 'Pending Review' ),
 					'publish' => __( 'Published' ),
 					'draft' => __( 'Draft' ),
 				),
@@ -279,7 +282,7 @@ class AUSNGOptions {
 			array(
 				'id' => 'download_images',
 				'type' => 'checkbox',
-				'title' => 'Download Images',
+				'title' => '',
 				'description' => __( 'Download Images', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 			) // The array of arguments to pass to the callback function.
@@ -293,7 +296,7 @@ class AUSNGOptions {
 			array(
 				'id' => 'featured_image',
 				'type' => 'checkbox',
-				'title' => 'Featured Image',
+				'title' => '',
 				'description' => __( 'Set Featured Image', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 			) // The array of arguments to pass to the callback function.
@@ -307,7 +310,7 @@ class AUSNGOptions {
 			array(
 				'id' => 'default_thumb',
 				'type' => 'image',
-				'description' => __( 'Please, enter default thubmnail URL', 'aus-grabber' ),
+				'description' => __( 'Please, select default thubmnail', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 				'atts' => array( 'style' => 'width:auto;')
 			) // The array of arguments to pass to the callback function.
@@ -321,7 +324,7 @@ class AUSNGOptions {
 			array(
 				'id' => 'show_source',
 				'type' => 'checkbox',
-				'title' => 'Show source',
+				'title' => '',
 				'description' => __( 'Show news source', 'aus-grabber' ),
 				'group' => $this->plugin_slug . '_plugin_settings',
 			) // The array of arguments to pass to the callback function.
@@ -345,7 +348,7 @@ class AUSNGOptions {
 		// Channels options
 		add_settings_section(
 			$this->plugin_slug . '_plugin_channels_settings_section', // ID that used to identify this section and whith wich to register options
-			'Plugin Options', // Title to be displayed on the administration page
+			__( 'Channels', 'aus-grabber' ), // Title to be displayed on the administration page
 			array( $this, 'plugin_general_options_ballback'), // Call back used to render the description of the section
 			$this->plugin_slug . '_plugin_options' // Page on which to add this section of options
 		);

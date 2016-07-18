@@ -1,0 +1,185 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-07-18 12:33+0500\n"
+"PO-Revision-Date: 2016-07-18 12:33+0500\n"
+"Last-Translator: Anvar Ulugov <wasatiyatm@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: __;_x;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: options.php:90
+#, php-format
+msgid "%s plugin options"
+msgstr "%s настройки"
+
+#: options.php:101 options.php:348
+msgid "Channels"
+msgstr "Каналы"
+
+#: options.php:151
+msgid "Add Channel"
+msgstr "Добавить канал"
+
+#: options.php:159
+msgid "Grabber"
+msgstr "Граббер"
+
+#: options.php:162
+msgid "Category"
+msgstr "Категория"
+
+#: options.php:165
+msgid "Author"
+msgstr "Автор"
+
+#: options.php:168 options.php:397
+msgid "RSS URL"
+msgstr ""
+
+#: options.php:171 options.php:195
+msgid "Delete"
+msgstr "Удалить"
+
+#: options.php:216
+msgid "Plugin Settings"
+msgstr "Настройки плагина"
+
+#: options.php:224
+msgid "Check every"
+msgstr "Проверить каждый"
+
+#: options.php:231
+msgid "Please, select period of channel checking"
+msgstr "Пожалуйста, выберите интервал проверки канала"
+
+#: options.php:233
+msgid "Once Hourly"
+msgstr "Каждый час"
+
+#: options.php:234
+msgid "Twice Daily"
+msgstr "Два раза в день"
+
+#: options.php:235
+msgid "Once Daily"
+msgstr "Каждый день"
+
+#: options.php:243
+msgid "Default author"
+msgstr "Автор (по умолчанию)"
+
+#: options.php:250
+msgid "Please, select grabbed news default author"
+msgstr "Пожалуйста, выберите автор для копированного поста"
+
+#: options.php:257
+msgid "Default post status"
+msgstr "Статус (по умолчанию)"
+
+#: options.php:265
+msgid "Pending Review"
+msgstr "На утверждении"
+
+#: options.php:266
+msgid "Published"
+msgstr "Опубликовано"
+
+#: options.php:267
+msgid "Draft"
+msgstr "Чернавик"
+
+#: options.php:269
+msgid "Please, select grabbed news default post status"
+msgstr "Пожалуйста, выберите статус по умолчанию  для копированного поста"
+
+#: options.php:275 options.php:283
+msgid "Download Images"
+msgstr "Загружать изоброжении"
+
+#: options.php:289 options.php:297
+msgid "Set Featured Image"
+msgstr "Указать мимниатюра поста"
+
+#: options.php:303
+msgid "Default thubmnail"
+msgstr "Миниатюра по умолчанию"
+
+#: options.php:310
+msgid "Please, select default thubmnail"
+msgstr "Пожалуйста выберите миниатюра по умолчанию"
+
+#: options.php:317 options.php:325
+msgid "Show news source"
+msgstr "Показать ссылку на оригинал"
+
+#: options.php:331
+msgid "Source template"
+msgstr "Ссыдка на оригинал"
+
+#: options.php:340
+msgid ""
+"Source template. Use {source_url} tag to display the link to original "
+"content."
+msgstr "Что бы показать ссылку на оригинал исползуйе тэг {source_url}"
+
+#: options.php:356
+msgid "Grabber class"
+msgstr "Класс копирование"
+
+#: options.php:363
+msgid "Please, select grabber class"
+msgstr "Пожалуйста, выберите класс для копирование"
+
+#: options.php:370
+msgid "Grabbed news category"
+msgstr "Категория  копированного поста"
+
+#: options.php:377
+msgid "Please, select grabbed news category"
+msgstr "Пожалуйста, выберите категорию  по умолчанию  для копированного поста"
+
+#: options.php:383
+msgid "Grabbed news author"
+msgstr " Автор копированного поста"
+
+#: options.php:391
+msgid "Please, select grabbed news author"
+msgstr "Пожалуйста, выберите автор для копированного поста"
+
+#: options.php:404 options.php:498
+msgid "Please, enter RSS URL"
+msgstr "Пожалуйста введите RSS URL"
+
+#: options.php:496
+msgid "New channel added"
+msgstr "Добавлен новый канал"
+
+#: options.php:502 options.php:532
+msgid "No naughty business please"
+msgstr "Пожалуйста не делайте глупостей"
+
+#: options.php:526
+msgid "Channel not set"
+msgstr "Канала не задан"
+
+#: options.php:639
+msgid "Upload Image"
+msgstr "Загрузить изображение"
+
+#~ msgid "Plugin Options"
+#~ msgstr "Опции плагина"
+
+#~ msgid "%s settings"
+#~ msgstr "%s настройки"
+
+#~ msgid "%s channels"
+#~ msgstr "%s каналы"

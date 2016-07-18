@@ -39,6 +39,10 @@ http://news.ulugov.uz
 ### Documentation ###
 http://anvar.ulugov.uz/aus-news-grabber/
 
+### Languages ###
+* English
+* Русский
+
 == Installation ==
 
 1. Download AUS News Grabber plugin from WordPress Plugin directory.

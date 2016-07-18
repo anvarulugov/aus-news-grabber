@@ -31,8 +31,12 @@ class AUSNewsGrabber {
 	private $grabbers_names;
 
 	function __construct() {
-
+		// Initialize
 		$this->init();
+
+		// Load languages
+		add_action( 'plugins_loaded', array( $this, 'languages' ) );
+
 		// Load Grabber classes automatically
 		$this->autoload_classes();
 
@@ -61,10 +65,28 @@ class AUSNewsGrabber {
 	 */
 	public function init() {
 
+		$default_settings = array(
+			'grabb_period' => 'daily',
+			'grabber_author_default' => 1,
+			'post_status_default' => 'pending',
+			'download_images' => 0,
+			'featured_image' => 0,
+			'default_thumb' => null,
+			'show_source' => 1,
+			'source_template' => '<a href="{source_url}">Link to original</a>',
+		);
+		if( ! get_option( 'aus_news_grabber_plugin_settings' ) ) {
+			add_option( 'aus_news_grabber_plugin_settings', $default_settings );
+		}
+
 		$this->options = get_option( 'aus_news_grabber_plugin_options' );
 		$this->settings = get_option( 'aus_news_grabber_plugin_settings' );
 		$this->last_grabb = get_option( 'aus_news_grabber_plugin_last_grabb' );
 
+	}
+
+	public function languages() {
+		load_theme_textdomain( 'aus-grabber', AUSNG_DIR . '/languages' );
 	}
 
 	public function autoload_classes() {
