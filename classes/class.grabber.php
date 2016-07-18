@@ -62,7 +62,7 @@ abstract class Grabber extends AUSNewsGrabber {
 			if ( $single ) {
 				$posts[] = $single;
 			}
-			if( $i==1 ) break;
+			// if( $i==1 ) break;
 		}
 
 		$posts = array_reverse( $posts );

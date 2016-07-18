@@ -15,7 +15,7 @@ Grab posts from different websites automatically just like a real human copy & p
 
 AUS Grabber is a tool to copy entire body of posts from other websites to your own. With this plugin you can automatically copy blog posts and images from different sources and publish them on your website. When you want to spice up your blog with posts from different popular websites, AUS Grabber comes very handy! No need to copy and paste posts by hand and waste your valuable time. Our plugins does the job for you automatically!
 
-[youtube https://www.youtube.com/watch?v=Vjzx_grcVdI]
+[youtube https://www.youtube.com/watch?v=dalEryGD804]
 
 ### Demo ###
 http://kukariku.ru
@@ -42,6 +42,9 @@ http://anvar.ulugov.uz/aus-news-grabber/
 ### Languages ###
 * English
 * Русский
+
+> ### Note ###
+> This plugin finds the content using selectors. If html structure of the external site will be changed then appropriate updates will be required on grabber class too.
 
 == Installation ==
 
