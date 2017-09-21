@@ -18,7 +18,6 @@ AUS Grabber is a tool to copy entire body of posts from other websites to your o
 [youtube https://www.youtube.com/watch?v=dalEryGD804]
 
 ### Demo ###
-http://kukariku.ru
 http://news.ulugov.uz
 
 ### Server requirements ###
