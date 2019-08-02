@@ -1,4 +1,5 @@
 === AUS News Grabber ===
+
 Contributors: ulugov
 Donate link: http://anvar.ulugov.uz/donate/
 Tags: grabber, rss, parser
